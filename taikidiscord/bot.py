@@ -1,7 +1,7 @@
-from discord.utils import get 
+from discord.utils import get
 import discord
 import os
-from discord.ext import commands 
+from discord.ext import commands
 import random
 import time
 
@@ -11,7 +11,7 @@ client = commands.Bot(command_prefix ='!', intents=intents)
 bot = commands.Bot(command_prefix='!',intents=intents)
 
 
-TOKEN = "MTA0OTQ2MzUxODY1MjU1MTMyOQ.GJOVKk.ZCMurWbGigrgbhx6xwhbG8yRZOjoJP-0gnMWi4" 
+TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 
 @client.event
 async def on_ready():
@@ -23,12 +23,12 @@ async def hi(ctx):
         await ctx.send({"Hello boss"})
     else:
         await ctx.send("bruh")
-    
+
 
 @client.command()
 async def mute(ctx, member: discord.Member):
-    if ctx.message.author.guild_permissions.administrator: 
-        role = discord.utils.get(ctx.guild.roles, name='Muted') 
+    if ctx.message.author.guild_permissions.administrator:
+        role = discord.utils.get(ctx.guild.roles, name='Muted')
         await member.add_roles(role)
         embed = discord.Embed(title="User Muted!",
                               description="**{}** was muted by **{}**!".format(member, ctx.message.author),
@@ -41,7 +41,7 @@ async def mute(ctx, member: discord.Member):
 
 @client.command()
 async def ban(ctx, member : discord.Member, *, reason = None):
-    if ctx.message.author.guild_permissions.administrator: 
+    if ctx.message.author.guild_permissions.administrator:
         await member.ban(reason=reason)
         embed = discord.Embed(title="User Banned!",
                               description="**{}** was banned by **{}**!".format(member, ctx.message.author),
@@ -50,10 +50,10 @@ async def ban(ctx, member : discord.Member, *, reason = None):
     else:
         embed=discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6)
         await ctx.send(embed=embed)
-        
+
 @client.command()
 async def unban(ctx, member:discord.User, *, reason=None):
-    if ctx.message.author.guild_permissions.administrator: 
+    if ctx.message.author.guild_permissions.administrator:
         await ctx.guild.unban(member, reason=reason)
         embed = discord.Embed(title="User Unbanned!",
                                 description="**{}** was unbanned by **{}**!".format(member, ctx.message.author),
@@ -65,7 +65,7 @@ async def unban(ctx, member:discord.User, *, reason=None):
 
 @client.command(description="Kicks a member from the server...")
 async def kick(ctx, member: discord.Member, *, reason=None):
-    if ctx.message.author.guild_permissions.administrator: 
+    if ctx.message.author.guild_permissions.administrator:
         try:
             if ctx.author.guild_permissions.kick_members:
                 await member.kick(reason=reason)
@@ -105,7 +105,7 @@ async def whipquan(ctx):
 @client.command()
 async def evan(ctx):
     await ctx.send("https://www.instagram.com/evan_uyem/")
-    
+
 @client.command()
 async def eric(ctx):
     await ctx.send("https://www.instagram.com/superstaric04/")
@@ -129,7 +129,7 @@ async def calc(ctx):
     except:
         await ctx.send("invalid input")
         return
-    output = None 
+    output = None
     if operator == "+":
         output = number_1 + number_2
     elif operator == "-":
@@ -159,4 +159,4 @@ async def leave(ctx):
     else:
         await ctx.send("The bot is not connected to a voice channel.")
 
-client.run(TOKEN) 
+client.run(TOKEN)
